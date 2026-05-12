@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>רשת הדיג של המשוואות</title>
+<style>
+:root{
+  --fm-blue:#4D9DFF;
+  --fm-blue-deep:#2F7EEA;
+  --fm-violet:#7F5CFF;
+  --fm-pink:#FF5DAA;
+  --fm-yellow:#FFD35A;
+  --fm-orange:#FF9F43;
+  --fm-green:#49D17D;
+  --fm-ink:#102033;
+  --fm-muted:#60758f;
+  --sea:#1aa6d9;
+  --sea-deep:#0873a7;
+  --sand:#ffd98a;
+  --card:rgba(255,255,255,.95);
+  --shadow:0 24px 70px rgba(16,32,51,.28);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:
+    radial-gradient(850px 420px at 82% 8%,rgba(255,255,255,.28),transparent 58%),
+    radial-gradient(560px 340px at 12% 0%,rgba(255,211,90,.24),transparent 55%),
+    linear-gradient(135deg,var(--fm-blue),var(--fm-blue-deep) 58%,var(--fm-violet));
+  color:var(--fm-ink);
+  padding:24px;
+}
+.wrap{width:min(1160px,100%);margin:auto}
+header{color:white;text-align:center;margin-bottom:24px}
+header::before{
+  content:"";
+  display:block;
+  width:92px;
+  height:92px;
+  margin:0 auto 14px;
+  background:url("./assets/logo.jpeg") center/cover no-repeat;
+  border-radius:26px;
+  background-color:white;
+  box-shadow:0 0 0 4px rgba(255,255,255,.78),0 0 28px rgba(255,255,255,.68),0 16px 34px rgba(16,32,51,.24);
+}
+header h1{margin:0 0 8px;font-size:38px;letter-spacing:.2px}
+header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
+.panel{
+  background:var(--card);
+  border-radius:32px;
+  padding:26px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(255,255,255,.66);
+}
+.tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:18px;
+}
+.tab{
+  border:0;
+  border-radius:18px;
+  padding:14px 16px;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+  color:white;
+  background:linear-gradient(135deg,var(--fm-violet),var(--fm-blue-deep));
+  box-shadow:0 10px 22px rgba(47,126,234,.25);
+}
+.tab.secondary{background:linear-gradient(135deg,var(--fm-pink),var(--fm-orange))}
+.tab:not(.active){opacity:.62;filter:saturate(.7)}
+.lesson-grid{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:18px;
+  align-items:stretch;
+}
+.card{
+  background:white;
+  border-radius:24px;
+  padding:20px;
+  border:2px solid #e8eef8;
+  box-shadow:0 10px 28px rgba(16,32,51,.08);
+}
+.card h2{margin:0 0 12px;color:var(--fm-blue-deep);font-size:24px}
+.equation-box{
+  background:linear-gradient(135deg,#ffffff,#f2f8ff);
+  border-radius:24px;
+  padding:20px;
+  text-align:center;
+  border:2px solid #e5f0ff;
+}
+.equation-title{font-size:17px;font-weight:800;color:#52657a;margin-bottom:10px}
+.equation{
+  direction:ltr;
+  font-size:32px;
+  font-weight:900;
+  color:var(--fm-ink);
+  line-height:1.35;
+}
+.explain{
+  font-size:17px;
+  line-height:1.65;
+  color:#31445a;
+  margin-top:14px;
+}
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:16px;
+}
+.action-btn{
+  border:0;
+  border-radius:16px;
+  padding:13px 16px;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+  color:white;
+  background:linear-gradient(135deg,var(--fm-violet),var(--fm-blue-deep));
+  box-shadow:0 10px 22px rgba(47,126,234,.23);
+}
+.action-btn.orange{background:linear-gradient(135deg,var(--fm-pink),var(--fm-orange))}
+.action-btn.green{background:linear-gradient(135deg,#29b86f,var(--fm-green));color:#07381f}
+.stage{
+  position:relative;
+  min-height:430px;
+  border-radius:28px;
+  overflow:hidden;
+  border:5px solid white;
+  background:
+    linear-gradient(to bottom,#b7ecff 0 28%,var(--sea) 28% 70%,var(--sea-deep) 70% 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.75),0 18px 40px rgba(16,32,51,.14);
+}
+.sun{position:absolute;top:24px;left:34px;width:58px;height:58px;background:var(--fm-yellow);border-radius:50%;box-shadow:0 0 24px rgba(255,211,90,.8)}
+.boat{
+  position:absolute;
+  top:118px;
+  right:56px;
+  width:170px;
+  height:70px;
+  z-index:5;
+}
+.boat::before{
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:42px;
+  background:#9b5b2e;
+  border-radius:0 0 70px 70px;
+  border:3px solid #70401e;
+}
+.boat::after{
+  content:"🎣";
+  position:absolute;
+  top:-28px;
+  right:48px;
+  font-size:54px;
+}
+.net{
+  position:absolute;
+  top:186px;
+  right:210px;
+  width:190px;
+  height:170px;
+  border:4px dashed rgba(255,255,255,.82);
+  border-radius:48% 52% 44% 56%;
+  background:
+    linear-gradient(45deg,rgba(255,255,255,.22) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.22) 50%,rgba(255,255,255,.22) 75%,transparent 75%),
+    linear-gradient(-45deg,rgba(255,255,255,.18) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.18) 50%,rgba(255,255,255,.18) 75%,transparent 75%);
+  background-size:30px 30px;
+  opacity:.35;
+  transform:scale(.78) rotate(-8deg);
+  transition:.7s cubic-bezier(.2,.9,.2,1);
+  z-index:4;
+}
+.stage.cast .net{
+  opacity:1;
+  transform:scale(1.12) rotate(-8deg);
+  background-size:46px 46px;
+  box-shadow:0 0 28px rgba(255,255,255,.45);
+}
+.sea-floor{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:80px;
+  background:linear-gradient(180deg,var(--sand),#f0b85d);
+  border-radius:50% 50% 0 0 / 22% 22% 0 0;
+}
+.item{
+  position:absolute;
+  font-size:46px;
+  opacity:0;
+  transform:translateY(32px) scale(.8);
+  transition:.7s cubic-bezier(.2,.9,.2,1);
+  z-index:7;
+  text-align:center;
+}
+.item small{
+  display:block;
+  margin-top:2px;
+  background:white;
+  color:var(--fm-ink);
+  border-radius:999px;
+  padding:4px 8px;
+  font-size:12px;
+  font-weight:900;
+  box-shadow:0 6px 14px rgba(0,0,0,.18);
+}
+.stage.cast .fish-good{opacity:1;transform:translate(0,-18px) scale(1);right:300px;top:238px}
+.stage.cast .jelly{opacity:1;transform:translate(0,-4px) scale(1);right:190px;top:282px}
+.stage.cast .seaweed{opacity:1;transform:translate(0,0) scale(1);right:370px;top:316px}
+.stage.cast .shell{opacity:1;transform:translate(0,0) scale(1);right:250px;top:330px}
+.check-zone{
+  position:absolute;
+  left:24px;
+  bottom:94px;
+  width:250px;
+  min-height:128px;
+  border-radius:24px;
+  background:rgba(255,255,255,.92);
+  border:3px solid rgba(255,255,255,.85);
+  box-shadow:0 12px 28px rgba(16,32,51,.18);
+  padding:14px;
+  z-index:9;
+  opacity:0;
+  transform:translateY(18px);
+  transition:.5s ease;
+}
+.stage.checked .check-zone{opacity:1;transform:translateY(0)}
+.check-zone h3{margin:0 0 8px;color:var(--fm-blue-deep);font-size:18px}
+.result-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0;font-size:16px;font-weight:800}
+.bad{color:#d33}.good{color:#12864f}
+.sieve{
+  position:absolute;
+  top:145px;
+  left:50%;
+  transform:translateX(-50%) rotate(0deg);
+  width:250px;
+  height:112px;
+  border-radius:0 0 120px 120px;
+  border:8px solid #d8e6f2;
+  border-top:0;
+  background:
+    radial-gradient(circle at 25% 38%,rgba(255,255,255,.75) 0 5px,transparent 6px),
+    radial-gradient(circle at 45% 55%,rgba(255,255,255,.75) 0 5px,transparent 6px),
+    radial-gradient(circle at 65% 38%,rgba(255,255,255,.75) 0 5px,transparent 6px),
+    radial-gradient(circle at 80% 58%,rgba(255,255,255,.75) 0 5px,transparent 6px),
+    rgba(255,255,255,.26);
+  z-index:6;
+  transition:.7s ease;
+}
+.stage.sift .sieve{transform:translateX(-50%) rotate(-8deg)}
+.root-item{
+  position:absolute;
+  font-size:54px;
+  font-weight:900;
+  color:white;
+  text-shadow:0 3px 10px rgba(0,0,0,.35);
+  opacity:0;
+  transition:.7s cubic-bezier(.2,.9,.2,1);
+  z-index:8;
+}
+.stage.sift .plus{opacity:1;left:56%;top:252px;transform:translateY(16px)}
+.stage.sift .minus{opacity:1;left:31%;top:308px;transform:translateY(62px) rotate(-18deg);color:#ffe1e1}
+.lost-note{
+  position:absolute;
+  right:26px;
+  bottom:96px;
+  max-width:270px;
+  background:white;
+  border-radius:22px;
+  padding:16px;
+  box-shadow:0 12px 28px rgba(16,32,51,.18);
+  border:3px solid #ffe1e1;
+  opacity:0;
+  transform:translateY(20px);
+  transition:.5s ease;
+  z-index:9;
+  font-weight:800;
+  line-height:1.5;
+}
+.stage.sift .lost-note{opacity:1;transform:translateY(0)}
+.message-box{
+  margin-top:18px;
+  background:white;
+  border-radius:22px;
+  padding:18px;
+  border:2px solid #e8eef8;
+  min-height:112px;
+}
+.message-box h2{margin:0 0 8px;color:var(--fm-blue-deep);font-size:22px}
+.message-box p{margin:0;font-size:17px;line-height:1.65;color:#31445a}
+.hidden{display:none}
+@media(max-width:900px){
+  body{padding:14px}
+  header::before{width:72px;height:72px;border-radius:20px}
+  header h1{font-size:29px;line-height:1.15}
+  header p{font-size:15px;padding:0 8px}
+  .panel{border-radius:24px;padding:14px}
+  .tabs{grid-template-columns:1fr;gap:8px}
+  .tab{font-size:15px;padding:12px}
+  .lesson-grid{grid-template-columns:1fr;gap:12px}
+  .card{border-radius:20px;padding:14px}
+  .equation{font-size:24px}
+  .actions{grid-template-columns:1fr}
+  .stage{height:370px;border-radius:22px;border-width:4px}
+  .boat{right:28px;top:102px;transform:scale(.78);transform-origin:top right}
+  .net{right:140px;top:170px;width:150px;height:135px}
+  .stage.cast .fish-good{right:212px;top:215px}
+  .stage.cast .jelly{right:116px;top:255px}
+  .stage.cast .seaweed{right:274px;top:284px}
+  .stage.cast .shell{right:176px;top:305px}
+  .item{font-size:36px}
+  .check-zone{left:12px;bottom:82px;width:220px;padding:12px}
+  .sieve{top:132px;width:200px;height:92px}
+  .stage.sift .plus{left:56%;top:232px}
+  .stage.sift .minus{left:22%;top:280px}
+  .lost-note{right:12px;bottom:76px;width:210px;font-size:14px}
+}
+@media(max-width:430px){
+  body{padding:10px}
+  header h1{font-size:25px}
+  .panel{padding:10px;border-radius:20px}
+  .stage{height:340px}
+  .boat{right:12px;top:98px;transform:scale(.68);transform-origin:top right}
+  .net{right:92px;top:170px;width:132px;height:118px}
+  .stage.cast .fish-good{right:166px;top:212px}
+  .stage.cast .jelly{right:78px;top:247px}
+  .stage.cast .seaweed{right:225px;top:278px}
+  .stage.cast .shell{right:130px;top:296px}
+  .item small{font-size:10px;padding:3px 6px}
+  .check-zone{width:190px;bottom:76px;font-size:13px}
+  .check-zone h3{font-size:16px}
+  .result-row{font-size:14px}
+  .lost-note{width:178px;font-size:12px;padding:12px}
+  .root-item{font-size:42px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>רשת הדיג של המשוואות</h1>
+    <p>פעולות על משוואות יכולות להכניס פתרונות זרים — או להעלים פתרונות נכונים.</p>
+  </header>
+
+  <div class="panel">
+    <div class="tabs">
+      <button class="tab active" id="squareTab" onclick="setMode('square')">🎣 העלאה בריבוע</button>
+      <button class="tab secondary" id="rootTab" onclick="setMode('root')">🧺 הוצאת שורש</button>
+    </div>
+
+    <section id="squareMode">
+      <div class="lesson-grid">
+        <div class="card">
+          <h2>🎣 רשת עם חורים גדולים</h2>
+          <div class="equation-box">
+            <div class="equation-title">המשוואה המקורית</div>
+            <div class="equation">√(x + 1) = x − 1</div>
+          </div>
+          <div class="explain">
+            כשמעלים בריבוע, הרשת לפעמים תופסת גם דברים שלא היו במשוואה המקורית. לכן אחרי שמקבלים מועמדים — חייבים לבדוק אותם במשוואה המקורית.
+          </div>
+          <div class="actions">
+            <button class="action-btn" onclick="castNet()">העלה בריבוע 🎣</button>
+            <button class="action-btn green" onclick="checkSolutions()">בדוק פתרונות 🔍</button>
+          </div>
+        </div>
+
+        <div class="stage" id="squareStage">
+          <div class="sun"></div>
+          <div class="boat"></div>
+          <div class="net"></div>
+          <div class="sea-floor"></div>
+          <div class="item fish-good">🐟<small>x = 3</small></div>
+          <div class="item jelly">🪼<small>x = 0</small></div>
+          <div class="item seaweed">🌿<small>אצה</small></div>
+          <div class="item shell">🐚<small>קונכייה</small></div>
+          <div class="check-zone">
+            <h3>בדיקה במשוואה המקורית</h3>
+            <div class="result-row"><span>x = 3</span><span class="good">✅ דג אמיתי</span></div>
+            <div class="result-row"><span>x = 0</span><span class="bad">❌ פתרון זר</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="message-box">
+        <h2 id="squareTitle">מה קורה כאן?</h2>
+        <p id="squareMessage">לחץ על “העלה בריבוע” כדי לראות איך הרשת תופסת גם דגים וגם דברים שלא רצינו.</p>
+      </div>
+    </section>
+
+    <section id="rootMode" class="hidden">
+      <div class="lesson-grid">
+        <div class="card">
+          <h2>🧺 מסננת השורש</h2>
+          <div class="equation-box">
+            <div class="equation-title">המשוואה</div>
+            <div class="equation">x² = 9</div>
+          </div>
+          <div class="explain">
+            כשמוציאים שורש, קל לטעות ולכתוב רק x = 3. אבל הפעולה ההפוכה של ריבוע צריכה לזכור שגם −3 בריבוע נותן 9.
+          </div>
+          <div class="actions">
+            <button class="action-btn orange" onclick="siftRoot()">הוצא שורש 🧺</button>
+            <button class="action-btn" onclick="resetRoot()">אפס הדגמה</button>
+          </div>
+        </div>
+
+        <div class="stage" id="rootStage">
+          <div class="sun"></div>
+          <div class="sieve"></div>
+          <div class="root-item plus">+3</div>
+          <div class="root-item minus">−3</div>
+          <div class="sea-floor"></div>
+          <div class="lost-note">אם כותבים רק x = 3, הפתרון x = −3 נופל מהמסננת ונעלם.</div>
+        </div>
+      </div>
+      <div class="message-box">
+        <h2 id="rootTitle">מה קורה כאן?</h2>
+        <p id="rootMessage">לחץ על “הוצא שורש” כדי לראות איך פתרון חוקי יכול להיעלם אם שוכחים את ±.</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+function setMode(mode){
+  const squareMode=document.getElementById('squareMode');
+  const rootMode=document.getElementById('rootMode');
+  const squareTab=document.getElementById('squareTab');
+  const rootTab=document.getElementById('rootTab');
+  if(mode==='square'){
+    squareMode.classList.remove('hidden');
+    rootMode.classList.add('hidden');
+    squareTab.classList.add('active');
+    rootTab.classList.remove('active');
+  }else{
+    rootMode.classList.remove('hidden');
+    squareMode.classList.add('hidden');
+    rootTab.classList.add('active');
+    squareTab.classList.remove('active');
+  }
+}
+
+function castNet(){
+  const stage=document.getElementById('squareStage');
+  stage.classList.add('cast');
+  stage.classList.remove('checked');
+  document.getElementById('squareTitle').textContent='הרשת גדלה';
+  document.getElementById('squareMessage').textContent='אחרי העלאה בריבוע קיבלנו מועמדים, אבל הרשת תפסה גם מדוזה: פתרון שנוצר בדרך ולא בהכרח נכון במשוואה המקורית.';
+}
+
+function checkSolutions(){
+  const stage=document.getElementById('squareStage');
+  stage.classList.add('cast');
+  stage.classList.add('checked');
+  document.getElementById('squareTitle').textContent='חייבים לבדוק במקור';
+  document.getElementById('squareMessage').textContent='x = 3 באמת מקיים את המשוואה המקורית, אבל x = 0 לא. לכן x = 0 הוא פתרון זר — כמו מדוזה שנכנסה לרשת.';
+}
+
+function siftRoot(){
+  const stage=document.getElementById('rootStage');
+  stage.classList.add('sift');
+  document.getElementById('rootTitle').textContent='המסננת איבדה פתרון';
+  document.getElementById('rootMessage').textContent='מהמשוואה x² = 9 מקבלים שני פתרונות: x = 3 וגם x = −3. אם כותבים רק שורש חיובי, מאבדים פתרון חוקי.';
+}
+
+function resetRoot(){
+  const stage=document.getElementById('rootStage');
+  stage.classList.remove('sift');
+  document.getElementById('rootTitle').textContent='מה קורה כאן?';
+  document.getElementById('rootMessage').textContent='לחץ על “הוצא שורש” כדי לראות איך פתרון חוקי יכול להיעלם אם שוכחים את ±.';
+}
+</script>
+</body>
+</html>
+</html>
+"""
+
+path = Path('/mnt/data/fishing_net_equations_app_clean.html')
+path.write_text(html, encoding='utf-8')
+print(path)
