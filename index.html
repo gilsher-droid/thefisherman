@@ -38,11 +38,7 @@ body{
 
 .wrap{width:min(1160px,100%);margin:auto}
 
-header{
-  color:white;
-  text-align:center;
-  margin-bottom:24px;
-}
+header{color:white;text-align:center;margin-bottom:24px}
 
 header::before{
   content:"";
@@ -360,18 +356,18 @@ header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
 
 .check-zone{
   position:absolute;
-  left:24px;
-  bottom:94px;
+  left:22px;
+  top:92px;
   width:255px;
   min-height:128px;
   border-radius:24px;
-  background:rgba(255,255,255,.92);
+  background:rgba(255,255,255,.94);
   border:3px solid rgba(255,255,255,.85);
   box-shadow:0 12px 28px rgba(16,32,51,.18);
   padding:14px;
   z-index:10;
   opacity:0;
-  transform:translateY(18px);
+  transform:translateY(-14px);
   transition:.5s ease;
 }
 
@@ -430,7 +426,7 @@ header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
 .lost-note{
   position:absolute;
   right:26px;
-  bottom:96px;
+  top:92px;
   max-width:285px;
   background:white;
   border-radius:22px;
@@ -438,7 +434,7 @@ header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
   box-shadow:0 12px 28px rgba(16,32,51,.18);
   border:3px solid #ffe1e1;
   opacity:0;
-  transform:translateY(20px);
+  transform:translateY(-14px);
   transition:.5s ease;
   z-index:10;
   font-weight:800;
@@ -485,8 +481,8 @@ header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
   .seaweed{right:260px;top:298px}
   .shell{right:142px;top:318px}
   .lost-fish{right:202px;top:232px}
-  .check-zone{left:12px;bottom:82px;width:220px;padding:12px}
-  .lost-note{right:12px;bottom:76px;width:215px;font-size:14px}
+  .check-zone{left:12px;top:58px;width:220px;padding:12px}
+  .lost-note{right:12px;top:58px;width:215px;font-size:14px}
 }
 
 @media(max-width:430px){
@@ -503,10 +499,10 @@ header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
   .seaweed{right:206px;top:286px}
   .shell{right:100px;top:302px}
   .lost-fish{right:145px;top:220px}
-  .check-zone{width:190px;bottom:72px;font-size:13px}
-  .check-zone h3{font-size:16px}
-  .result-row{font-size:14px}
-  .lost-note{width:178px;font-size:12px;padding:12px}
+  .check-zone{width:172px;top:48px;font-size:12px;padding:10px}
+  .check-zone h3{font-size:14px}
+  .result-row{font-size:12px}
+  .lost-note{width:166px;top:48px;font-size:12px;padding:10px}
 }
 </style>
 </head>
