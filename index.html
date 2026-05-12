@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>רשת הדיג של המשוואות</title>
+
 <style>
 :root{
   --fm-blue:#4D9DFF;
@@ -14,14 +15,15 @@
   --fm-orange:#FF9F43;
   --fm-green:#49D17D;
   --fm-ink:#102033;
-  --fm-muted:#60758f;
   --sea:#1aa6d9;
   --sea-deep:#0873a7;
   --sand:#ffd98a;
   --card:rgba(255,255,255,.95);
   --shadow:0 24px 70px rgba(16,32,51,.28);
 }
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
   min-height:100vh;
@@ -33,8 +35,15 @@ body{
   color:var(--fm-ink);
   padding:24px;
 }
+
 .wrap{width:min(1160px,100%);margin:auto}
-header{color:white;text-align:center;margin-bottom:24px}
+
+header{
+  color:white;
+  text-align:center;
+  margin-bottom:24px;
+}
+
 header::before{
   content:"";
   display:block;
@@ -46,8 +55,10 @@ header::before{
   background-color:white;
   box-shadow:0 0 0 4px rgba(255,255,255,.78),0 0 28px rgba(255,255,255,.68),0 16px 34px rgba(16,32,51,.24);
 }
-header h1{margin:0 0 8px;font-size:38px;letter-spacing:.2px}
+
+header h1{margin:0 0 8px;font-size:38px}
 header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
+
 .panel{
   background:var(--card);
   border-radius:32px;
@@ -55,12 +66,14 @@ header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
   box-shadow:var(--shadow);
   border:1px solid rgba(255,255,255,.66);
 }
+
 .tabs{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
   margin-bottom:18px;
 }
+
 .tab{
   border:0;
   border-radius:18px;
@@ -72,14 +85,17 @@ header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
   background:linear-gradient(135deg,var(--fm-violet),var(--fm-blue-deep));
   box-shadow:0 10px 22px rgba(47,126,234,.25);
 }
+
 .tab.secondary{background:linear-gradient(135deg,var(--fm-pink),var(--fm-orange))}
-.tab:not(.active){opacity:.62;filter:saturate(.7)}
+.tab:not(.active){opacity:.6;filter:saturate(.65)}
+
 .lesson-grid{
   display:grid;
-  grid-template-columns:1.05fr .95fr;
+  grid-template-columns:1.04fr .96fr;
   gap:18px;
   align-items:stretch;
 }
+
 .card{
   background:white;
   border-radius:24px;
@@ -87,7 +103,13 @@ header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
   border:2px solid #e8eef8;
   box-shadow:0 10px 28px rgba(16,32,51,.08);
 }
-.card h2{margin:0 0 12px;color:var(--fm-blue-deep);font-size:24px}
+
+.card h2{
+  margin:0 0 12px;
+  color:var(--fm-blue-deep);
+  font-size:24px;
+}
+
 .equation-box{
   background:linear-gradient(135deg,#ffffff,#f2f8ff);
   border-radius:24px;
@@ -95,26 +117,63 @@ header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
   text-align:center;
   border:2px solid #e5f0ff;
 }
-.equation-title{font-size:17px;font-weight:800;color:#52657a;margin-bottom:10px}
+
+.equation-title{
+  font-size:17px;
+  font-weight:800;
+  color:#52657a;
+  margin-bottom:12px;
+}
+
 .equation{
   direction:ltr;
   font-size:32px;
   font-weight:900;
   color:var(--fm-ink);
-  line-height:1.35;
+  line-height:1.45;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:9px;
+  flex-wrap:wrap;
 }
+
+.sqrt-wrap{
+  display:inline-flex;
+  align-items:flex-start;
+  direction:ltr;
+}
+
+.sqrt-symbol{
+  font-size:50px;
+  line-height:.9;
+  font-weight:900;
+  transform:translateY(1px);
+}
+
+.sqrt-content{
+  border-top:4px solid currentColor;
+  padding:7px 10px 0 8px;
+  margin-left:-5px;
+  font-size:32px;
+  font-weight:900;
+  line-height:1;
+}
+
 .explain{
   font-size:17px;
   line-height:1.65;
   color:#31445a;
   margin-top:14px;
 }
+
 .actions{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
   margin-top:16px;
 }
+
 .action-btn{
   border:0;
   border-radius:16px;
@@ -126,27 +185,67 @@ header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
   background:linear-gradient(135deg,var(--fm-violet),var(--fm-blue-deep));
   box-shadow:0 10px 22px rgba(47,126,234,.23);
 }
+
 .action-btn.orange{background:linear-gradient(135deg,var(--fm-pink),var(--fm-orange))}
 .action-btn.green{background:linear-gradient(135deg,#29b86f,var(--fm-green));color:#07381f}
+
 .stage{
   position:relative;
-  min-height:430px;
+  min-height:450px;
   border-radius:28px;
   overflow:hidden;
   border:5px solid white;
   background:
-    linear-gradient(to bottom,#b7ecff 0 28%,var(--sea) 28% 70%,var(--sea-deep) 70% 100%);
+    linear-gradient(to bottom,#b7ecff 0 27%,var(--sea) 27% 68%,var(--sea-deep) 68% 100%);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.75),0 18px 40px rgba(16,32,51,.14);
 }
-.sun{position:absolute;top:24px;left:34px;width:58px;height:58px;background:var(--fm-yellow);border-radius:50%;box-shadow:0 0 24px rgba(255,211,90,.8)}
+
+.wave{
+  position:absolute;
+  left:-20%;
+  width:140%;
+  height:42px;
+  background:radial-gradient(ellipse at center,rgba(255,255,255,.5) 0 32%,transparent 34%);
+  background-size:82px 24px;
+  opacity:.5;
+  animation:waves 4.2s linear infinite;
+  z-index:2;
+}
+
+.wave.one{top:138px}
+.wave.two{top:190px;opacity:.34;animation-duration:5.5s;animation-direction:reverse}
+
+@keyframes waves{
+  from{transform:translateX(0)}
+  to{transform:translateX(82px)}
+}
+
+.sun{
+  position:absolute;
+  top:24px;
+  left:34px;
+  width:58px;
+  height:58px;
+  background:var(--fm-yellow);
+  border-radius:50%;
+  box-shadow:0 0 24px rgba(255,211,90,.8);
+}
+
 .boat{
   position:absolute;
-  top:118px;
-  right:56px;
-  width:170px;
-  height:70px;
-  z-index:5;
+  top:112px;
+  right:54px;
+  width:174px;
+  height:72px;
+  z-index:7;
+  animation:floatBoat 3.5s ease-in-out infinite;
 }
+
+@keyframes floatBoat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-7px)}
+}
+
 .boat::before{
   content:"";
   position:absolute;
@@ -158,19 +257,54 @@ header p{margin:0;font-size:18px;line-height:1.45;opacity:.95}
   border-radius:0 0 70px 70px;
   border:3px solid #70401e;
 }
+
 .boat::after{
   content:"🎣";
   position:absolute;
-  top:-28px;
-  right:48px;
+  top:-30px;
+  right:50px;
   font-size:54px;
 }
-px;
+
+.net{
+  position:absolute;
+  top:188px;
+  right:210px;
+  width:210px;
+  height:185px;
+  border:5px solid rgba(255,255,255,.82);
+  border-radius:44% 56% 48% 52% / 36% 42% 58% 64%;
+  background:
+    repeating-linear-gradient(35deg,rgba(255,255,255,.72) 0 2px,transparent 2px 22px),
+    repeating-linear-gradient(-35deg,rgba(255,255,255,.62) 0 2px,transparent 2px 22px),
+    radial-gradient(circle at 50% 12%,rgba(255,255,255,.38),transparent 45%);
+  opacity:.82;
+  transform:scale(.9) rotate(-10deg);
+  transform-origin:top right;
+  transition:.75s cubic-bezier(.2,.9,.2,1);
+  z-index:4;
+  box-shadow:inset 0 0 18px rgba(255,255,255,.25),0 10px 24px rgba(0,0,0,.12);
+  animation:netFloat 3.2s ease-in-out infinite;
+}
+
+@keyframes netFloat{
+  0%,100%{translate:0 0}
+  50%{translate:0 -8px}
+}
+
+.net::before{
+  content:"";
+  position:absolute;
+  right:-62px;
+  top:-38px;
+  width:98px;
+  height:76px;
   border-top:4px solid rgba(255,255,255,.8);
   border-right:4px solid rgba(255,255,255,.7);
   border-radius:0 70px 0 0;
   transform:rotate(10deg);
 }
+
 .net::after{
   content:"";
   position:absolute;
@@ -183,105 +317,121 @@ px;
   border-radius:50%;
   box-shadow:-58px -18px 0 -5px rgba(255,255,255,.6),58px -16px 0 -5px rgba(255,255,255,.6);
 }
-.stage.cast .net{
+
+.square-active .net{
   opacity:1;
-  transform:scale(1.08) rotate(-10deg);
+  transform:scale(1.12) rotate(-10deg);
   background:
-    repeating-linear-gradient(35deg,rgba(255,255,255,.78) 0 2px,transparent 2px 34px),
-    repeating-linear-gradient(-35deg,rgba(255,255,255,.68) 0 2px,transparent 2px 34px),
+    repeating-linear-gradient(35deg,rgba(255,255,255,.78) 0 2px,transparent 2px 36px),
+    repeating-linear-gradient(-35deg,rgba(255,255,255,.68) 0 2px,transparent 2px 36px),
     radial-gradient(circle at 50% 12%,rgba(255,255,255,.42),transparent 48%);
   box-shadow:inset 0 0 24px rgba(255,255,255,.34),0 0 34px rgba(255,255,255,.45),0 14px 32px rgba(0,0,0,.14);
 }
+
 .sea-floor{
   position:absolute;
   left:0;
   right:0;
   bottom:0;
-  height:80px;
+  height:86px;
   background:linear-gradient(180deg,var(--sand),#f0b85d);
   border-radius:50% 50% 0 0 / 22% 22% 0 0;
 }
+
 .item{
   position:absolute;
-  font-size:46px;
+  font-size:48px;
   opacity:0;
-  transform:translateY(32px) scale(.8);
-  transition:.7s cubic-bezier(.2,.9,.2,1);
-  z-index:7;
-  text-align:center;
+  z-index:8;
+  transition:.75s cubic-bezier(.2,.9,.2,1);
 }
-.item small{
-  display:block;
-  margin-top:2px;
-  background:white;
-  color:var(--fm-ink);
-  border-radius:999px;
-  padding:4px 8px;
-  font-size:12px;
-  font-weight:900;
-  box-shadow:0 6px 14px rgba(0,0,0,.18);
-}
-.stage.cast .fish-good{opacity:1;transform:translate(0,-18px) scale(1);right:300px;top:238px}
-.stage.cast .jelly{opacity:1;transform:translate(0,-4px) scale(1);right:190px;top:282px}
-.stage.cast .seaweed{opacity:1;transform:translate(0,0) scale(1);right:370px;top:316px}
-.stage.cast .shell{opacity:1;transform:translate(0,0) scale(1);right:250px;top:330px}
+
+.fish-a{right:318px;top:248px}
+.fish-b{right:252px;top:312px}
+.jelly{right:170px;top:282px}
+.seaweed{right:382px;top:326px}
+.shell{right:238px;top:342px}
+
+.square-active .fish-a{opacity:1;transform:translate(-4px,-18px) scale(1.05)}
+.square-active .fish-b{opacity:1;transform:translate(10px,-10px) scale(1.0)}
+.square-active .jelly{opacity:1;transform:translate(-22px,-8px) scale(1.04)}
+.square-active .seaweed{opacity:1;transform:translate(12px,-6px) scale(1.02)}
+.square-active .shell{opacity:1;transform:translate(-10px,-2px) scale(1.04)}
+
 .check-zone{
   position:absolute;
   left:24px;
   bottom:94px;
-  width:250px;
+  width:255px;
   min-height:128px;
   border-radius:24px;
   background:rgba(255,255,255,.92);
   border:3px solid rgba(255,255,255,.85);
   box-shadow:0 12px 28px rgba(16,32,51,.18);
   padding:14px;
-  z-index:9;
+  z-index:10;
   opacity:0;
   transform:translateY(18px);
   transition:.5s ease;
 }
-.stage.checked .check-zone{opacity:1;transform:translateY(0)}
+
+.checked .check-zone{opacity:1;transform:translateY(0)}
+
 .check-zone h3{margin:0 0 8px;color:var(--fm-blue-deep);font-size:18px}
-.result-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0;font-size:16px;font-weight:800}
-.bad{color:#d33}.good{color:#12864f}
-.sieve{
-  position:absolute;
-  top:145px;
-  left:50%;
-  transform:translateX(-50%) rotate(0deg);
-  width:250px;
-  height:112px;
-  border-radius:0 0 120px 120px;
-  border:8px solid #d8e6f2;
-  border-top:0;
-  background:
-    radial-gradient(circle at 25% 38%,rgba(255,255,255,.75) 0 5px,transparent 6px),
-    radial-gradient(circle at 45% 55%,rgba(255,255,255,.75) 0 5px,transparent 6px),
-    radial-gradient(circle at 65% 38%,rgba(255,255,255,.75) 0 5px,transparent 6px),
-    radial-gradient(circle at 80% 58%,rgba(255,255,255,.75) 0 5px,transparent 6px),
-    rgba(255,255,255,.26);
-  z-index:6;
-  transition:.7s ease;
+
+.result-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin:8px 0;
+  font-size:16px;
+  font-weight:800;
 }
-.stage.sift .sieve{transform:translateX(-50%) rotate(-8deg)}
-.root-item{
-  position:absolute;
-  font-size:54px;
-  font-weight:900;
-  color:white;
-  text-shadow:0 3px 10px rgba(0,0,0,.35);
-  opacity:0;
-  transition:.7s cubic-bezier(.2,.9,.2,1);
-  z-index:8;
+
+.bad{color:#d33}
+.good{color:#12864f}
+
+.root-start .net{
+  transform:scale(1.02) rotate(-10deg);
+  opacity:1;
 }
-.stage.sift .plus{opacity:1;left:56%;top:252px;transform:translateY(16px)}
-.stage.sift .minus{opacity:1;left:31%;top:308px;transform:translateY(62px) rotate(-18deg);color:#ffe1e1}
+
+.root-start .fish-a,
+.root-start .fish-b{
+  opacity:1;
+  transform:translateY(-6px) scale(1);
+}
+
+.root-sift .net{
+  transform:scale(.94) rotate(-16deg);
+}
+
+.root-sift .fish-a{
+  opacity:1;
+  transform:translate(-20px,-32px) scale(1.08);
+}
+
+.root-sift .fish-b{
+  opacity:1;
+  transform:translate(-125px,82px) rotate(-24deg) scale(.95);
+}
+
+.root-sift .lost-fish{
+  opacity:1;
+  transform:translate(-80px,92px) rotate(-28deg) scale(1);
+}
+
+.lost-fish{
+  right:300px;
+  top:252px;
+}
+
 .lost-note{
   position:absolute;
   right:26px;
   bottom:96px;
-  max-width:270px;
+  max-width:285px;
   background:white;
   border-radius:22px;
   padding:16px;
@@ -290,11 +440,13 @@ px;
   opacity:0;
   transform:translateY(20px);
   transition:.5s ease;
-  z-index:9;
+  z-index:10;
   font-weight:800;
   line-height:1.5;
 }
-.stage.sift .lost-note{opacity:1;transform:translateY(0)}
+
+.root-sift .lost-note{opacity:1;transform:translateY(0)}
+
 .message-box{
   margin-top:18px;
   background:white;
@@ -303,9 +455,12 @@ px;
   border:2px solid #e8eef8;
   min-height:112px;
 }
+
 .message-box h2{margin:0 0 8px;color:var(--fm-blue-deep);font-size:22px}
 .message-box p{margin:0;font-size:17px;line-height:1.65;color:#31445a}
+
 .hidden{display:none}
+
 @media(max-width:900px){
   body{padding:14px}
   header::before{width:72px;height:72px;border-radius:20px}
@@ -317,41 +472,45 @@ px;
   .lesson-grid{grid-template-columns:1fr;gap:12px}
   .card{border-radius:20px;padding:14px}
   .equation{font-size:24px}
+  .sqrt-symbol{font-size:42px}
+  .sqrt-content{font-size:26px;border-top-width:3px}
   .actions{grid-template-columns:1fr}
-  .stage{height:370px;border-radius:22px;border-width:4px}
-  .boat{right:28px;top:102px;transform:scale(.78);transform-origin:top right}
-  .net{right:140px;top:170px;width:150px;height:135px}
-  .stage.cast .fish-good{right:212px;top:215px}
-  .stage.cast .jelly{right:116px;top:255px}
-  .stage.cast .seaweed{right:274px;top:284px}
-  .stage.cast .shell{right:176px;top:305px}
-  .item{font-size:36px}
+  .stage{height:380px;border-radius:22px;border-width:4px}
+  .boat{right:22px;top:102px;transform:scale(.78);transform-origin:top right}
+  .net{right:128px;top:176px;width:158px;height:140px}
+  .item{font-size:37px}
+  .fish-a{right:210px;top:224px}
+  .fish-b{right:164px;top:282px}
+  .jelly{right:90px;top:250px}
+  .seaweed{right:260px;top:298px}
+  .shell{right:142px;top:318px}
+  .lost-fish{right:202px;top:232px}
   .check-zone{left:12px;bottom:82px;width:220px;padding:12px}
-  .sieve{top:132px;width:200px;height:92px}
-  .stage.sift .plus{left:56%;top:232px}
-  .stage.sift .minus{left:22%;top:280px}
-  .lost-note{right:12px;bottom:76px;width:210px;font-size:14px}
+  .lost-note{right:12px;bottom:76px;width:215px;font-size:14px}
 }
+
 @media(max-width:430px){
   body{padding:10px}
   header h1{font-size:25px}
   .panel{padding:10px;border-radius:20px}
-  .stage{height:340px}
-  .boat{right:12px;top:98px;transform:scale(.68);transform-origin:top right}
-  .net{right:92px;top:170px;width:132px;height:118px}
-  .stage.cast .fish-good{right:166px;top:212px}
-  .stage.cast .jelly{right:78px;top:247px}
-  .stage.cast .seaweed{right:225px;top:278px}
-  .stage.cast .shell{right:130px;top:296px}
-  .item small{font-size:10px;padding:3px 6px}
-  .check-zone{width:190px;bottom:76px;font-size:13px}
+  .stage{height:350px}
+  .boat{right:6px;top:98px;transform:scale(.66);transform-origin:top right}
+  .net{right:82px;top:174px;width:134px;height:118px}
+  .item{font-size:32px}
+  .fish-a{right:152px;top:218px}
+  .fish-b{right:112px;top:270px}
+  .jelly{right:54px;top:242px}
+  .seaweed{right:206px;top:286px}
+  .shell{right:100px;top:302px}
+  .lost-fish{right:145px;top:220px}
+  .check-zone{width:190px;bottom:72px;font-size:13px}
   .check-zone h3{font-size:16px}
   .result-row{font-size:14px}
   .lost-note{width:178px;font-size:12px;padding:12px}
-  .root-item{font-size:42px}
 }
 </style>
 </head>
+
 <body>
 <div class="wrap">
   <header>
@@ -368,82 +527,125 @@ px;
     <section id="squareMode">
       <div class="lesson-grid">
         <div class="card">
-          <h2>🎣 רשת עם חורים גדולים</h2>
+          <h2>🎣 רשת עם חורים שגדלים</h2>
           <div class="equation-box">
             <div class="equation-title">המשוואה המקורית</div>
-            <div class="equation">√(x + 1) = x − 1</div>
+            <div class="equation" id="squareEquation"></div>
           </div>
-          <div class="explain">
+          <div class="explain" id="squareExplain">
             כשמעלים בריבוע, הרשת לפעמים תופסת גם דברים שלא היו במשוואה המקורית. לכן אחרי שמקבלים מועמדים — חייבים לבדוק אותם במשוואה המקורית.
           </div>
           <div class="actions">
             <button class="action-btn" onclick="castNet()">העלה בריבוע 🎣</button>
-            <button class="action-btn green" onclick="checkSolutions()">בדוק פתרונות 🔍</button>
+            <button class="action-btn green" onclick="newSquareExample()">הגרל דוגמה חדשה</button>
           </div>
         </div>
 
         <div class="stage" id="squareStage">
+          <div class="wave one"></div>
+          <div class="wave two"></div>
           <div class="sun"></div>
           <div class="boat"></div>
           <div class="net"></div>
           <div class="sea-floor"></div>
-          <div class="item fish-good">🐟</div>
+
+          <div class="item fish-a">🐟</div>
+          <div class="item fish-b">🐟</div>
           <div class="item jelly">🪼</div>
           <div class="item seaweed">🌿</div>
           <div class="item shell">🐚</div>
+
           <div class="check-zone">
             <h3>בדיקה במשוואה המקורית</h3>
-            <div class="result-row"><span>x = 3</span><span class="good">✅ דג אמיתי</span></div>
-            <div class="result-row"><span>x = 0</span><span class="bad">❌ פתרון זר</span></div>
+            <div class="result-row"><span id="goodCandidate">x = 3</span><span class="good">✅ פתרון חוקי</span></div>
+            <div class="result-row"><span id="badCandidate">x = 0</span><span class="bad">❌ פתרון זר</span></div>
           </div>
         </div>
       </div>
+
       <div class="message-box">
         <h2 id="squareTitle">מה קורה כאן?</h2>
-        <p id="squareMessage">לחץ על “העלה בריבוע” כדי לראות איך הרשת תופסת גם דגים וגם דברים שלא רצינו.</p>
+        <p id="squareMessage">לחץ על “העלה בריבוע” כדי לראות איך החורים ברשת גדלים — ונכנסים גם דברים שלא רצינו.</p>
       </div>
     </section>
 
     <section id="rootMode" class="hidden">
       <div class="lesson-grid">
         <div class="card">
-          <h2>🧺 מסננת השורש</h2>
+          <h2>🧺 רשת שמאבדת דגים</h2>
           <div class="equation-box">
             <div class="equation-title">המשוואה</div>
-            <div class="equation">x² = 9</div>
+            <div class="equation" id="rootEquation">x² = 9</div>
           </div>
-          <div class="explain">
-            כשמוציאים שורש, קל לטעות ולכתוב רק x = 3. אבל הפעולה ההפוכה של ריבוע צריכה לזכור שגם −3 בריבוע נותן 9.
+          <div class="explain" id="rootExplain">
+            כשמוציאים שורש, קל לטעות ולכתוב רק את השורש החיובי. במטפורה שלנו — חלק מהדגים מחליקים החוצה מהרשת.
           </div>
           <div class="actions">
             <button class="action-btn orange" onclick="siftRoot()">הוצא שורש 🧺</button>
-            <button class="action-btn" onclick="resetRoot()">אפס הדגמה</button>
+            <button class="action-btn" onclick="newRootExample()">הגרל דוגמה חדשה</button>
           </div>
         </div>
 
-        <div class="stage" id="rootStage">
+        <div class="stage root-start" id="rootStage">
+          <div class="wave one"></div>
+          <div class="wave two"></div>
           <div class="sun"></div>
-          <div class="sieve"></div>
-          <div class="root-item plus">+3</div>
-          <div class="root-item minus">−3</div>
+          <div class="boat"></div>
+          <div class="net"></div>
           <div class="sea-floor"></div>
-          <div class="lost-note">אם כותבים רק x = 3, הפתרון x = −3 נופל מהמסננת ונעלם.</div>
+
+          <div class="item fish-a">🐟</div>
+          <div class="item fish-b">🐟</div>
+          <div class="item lost-fish">🐟</div>
+
+          <div class="lost-note">
+            אם כותבים רק את השורש החיובי, פתרון חוקי עלול להחליק החוצה מהרשת.
+          </div>
         </div>
       </div>
+
       <div class="message-box">
         <h2 id="rootTitle">מה קורה כאן?</h2>
-        <p id="rootMessage">לחץ על “הוצא שורש” כדי לראות איך פתרון חוקי יכול להיעלם אם שוכחים את ±.</p>
+        <p id="rootMessage">לחץ על “הוצא שורש” כדי לראות איך פתרון חוקי יכול להיעלם אם שוכחים את שני הסימנים.</p>
       </div>
     </section>
   </div>
 </div>
 
 <script>
+const squareExamples=[
+  {
+    eq:'<span class="sqrt-wrap"><span class="sqrt-symbol">√</span><span class="sqrt-content">x + 1</span></span><span>=</span><span>x − 1</span>',
+    good:'x = 3',
+    bad:'x = 0'
+  },
+  {
+    eq:'<span class="sqrt-wrap"><span class="sqrt-symbol">√</span><span class="sqrt-content">x + 4</span></span><span>=</span><span>x − 2</span>',
+    good:'x = 5',
+    bad:'x = 0'
+  },
+  {
+    eq:'<span class="sqrt-wrap"><span class="sqrt-symbol">√</span><span class="sqrt-content">2x + 9</span></span><span>=</span><span>x</span>',
+    good:'x = 3',
+    bad:'x = −3'
+  }
+];
+
+const rootExamples=[
+  {eq:'x² = 9', kept:'x = 3', lost:'x = −3'},
+  {eq:'x² = 16', kept:'x = 4', lost:'x = −4'},
+  {eq:'(x − 1)² = 25', kept:'x = 6', lost:'x = −4'}
+];
+
+let squareIndex=0;
+let rootIndex=0;
+
 function setMode(mode){
   const squareMode=document.getElementById('squareMode');
   const rootMode=document.getElementById('rootMode');
   const squareTab=document.getElementById('squareTab');
   const rootTab=document.getElementById('rootTab');
+
   if(mode==='square'){
     squareMode.classList.remove('hidden');
     rootMode.classList.add('hidden');
@@ -457,41 +659,61 @@ function setMode(mode){
   }
 }
 
-function castNet(){
-  const stage=document.getElementById('squareStage');
-  stage.classList.add('cast');
-  stage.classList.remove('checked');
-  document.getElementById('squareTitle').textContent='הרשת גדלה';
-  document.getElementById('squareMessage').textContent='אחרי העלאה בריבוע קיבלנו מועמדים, אבל הרשת תפסה גם מדוזה: פתרון שנוצר בדרך ולא בהכרח נכון במשוואה המקורית.';
+function renderSquare(){
+  const ex=squareExamples[squareIndex];
+  document.getElementById('squareEquation').innerHTML=ex.eq;
+  document.getElementById('goodCandidate').textContent=ex.good;
+  document.getElementById('badCandidate').textContent=ex.bad;
 }
 
-function checkSolutions(){
+function renderRoot(){
+  const ex=rootExamples[rootIndex];
+  document.getElementById('rootEquation').textContent=ex.eq;
+}
+
+function castNet(){
   const stage=document.getElementById('squareStage');
-  stage.classList.add('cast');
+  const ex=squareExamples[squareIndex];
+
+  stage.classList.add('square-active');
   stage.classList.add('checked');
-  document.getElementById('squareTitle').textContent='חייבים לבדוק במקור';
-  document.getElementById('squareMessage').textContent='x = 3 באמת מקיים את המשוואה המקורית, אבל x = 0 לא. לכן x = 0 הוא פתרון זר — כמו מדוזה שנכנסה לרשת.';
+
+  document.getElementById('squareTitle').textContent='הרשת תפסה יותר מדי';
+  document.getElementById('squareMessage').textContent=
+    `אחרי העלאה בריבוע קיבלנו מועמדים. ${ex.good} הוא פתרון חוקי, אבל ${ex.bad} הוא פתרון זר — משהו שנכנס לרשת בגלל הפעולה.`;
+}
+
+function newSquareExample(){
+  const stage=document.getElementById('squareStage');
+  squareIndex=(squareIndex+1)%squareExamples.length;
+  stage.classList.remove('square-active','checked');
+  renderSquare();
+  document.getElementById('squareTitle').textContent='דוגמה חדשה';
+  document.getElementById('squareMessage').textContent='לחץ על “העלה בריבוע” כדי לראות איך הרשת משתנה ומה נכנס אליה.';
 }
 
 function siftRoot(){
   const stage=document.getElementById('rootStage');
-  stage.classList.add('sift');
-  document.getElementById('rootTitle').textContent='המסננת איבדה פתרון';
-  document.getElementById('rootMessage').textContent='מהמשוואה x² = 9 מקבלים שני פתרונות: x = 3 וגם x = −3. אם כותבים רק שורש חיובי, מאבדים פתרון חוקי.';
+  const ex=rootExamples[rootIndex];
+
+  stage.classList.add('root-sift');
+
+  document.getElementById('rootTitle').textContent='פתרון החליק החוצה';
+  document.getElementById('rootMessage').textContent=
+    `במשוואה ${ex.eq} לא מספיק לזכור רק את ${ex.kept}. גם ${ex.lost} הוא פתרון חוקי שצריך להישאר ברשת.`;
 }
 
-function resetRoot(){
+function newRootExample(){
   const stage=document.getElementById('rootStage');
-  stage.classList.remove('sift');
-  document.getElementById('rootTitle').textContent='מה קורה כאן?';
-  document.getElementById('rootMessage').textContent='לחץ על “הוצא שורש” כדי לראות איך פתרון חוקי יכול להיעלם אם שוכחים את ±.';
+  rootIndex=(rootIndex+1)%rootExamples.length;
+  stage.classList.remove('root-sift');
+  renderRoot();
+  document.getElementById('rootTitle').textContent='דוגמה חדשה';
+  document.getElementById('rootMessage').textContent='לחץ על “הוצא שורש” כדי לראות איזה פתרון עלול להחליק החוצה.';
 }
+
+renderSquare();
+renderRoot();
 </script>
 </body>
 </html>
-</html>
-"""
-
-path = Path('/mnt/data/fishing_net_equations_app_clean.html')
-path.write_text(html, encoding='utf-8')
-print(path)
