@@ -785,6 +785,8 @@
     }
   </style>
   <script src="/simulator-access-guard.js"></script>
+<link rel="stylesheet" href="language-support.css">
+<script src="language-support.js" defer></script>
 </head>
 <body>
   <div class="app">
@@ -807,6 +809,7 @@
         <div class="language-switcher" role="group" aria-label="בחירת שפה" data-i18n-aria="language.label">
           <button class="language-option" type="button" data-locale="he" lang="he">עברית</button>
           <button class="language-option" type="button" data-locale="en" lang="en">English</button>
+<button class="language-option" type="button" data-locale="ar" lang="ar" dir="rtl" aria-pressed="false">العربية</button>
         </div>
       </div>
     </header>
@@ -891,6 +894,46 @@
 
   <script>
     const messages = {
+  ar: {
+    "pageTitle": "شبكة صيد حلول المعادلات | Fundamatics",
+    "header.series": "مختبر التفكير الرياضي",
+    "header.title": "شبكة صيد حلول المعادلات",
+    "header.subtitle": "استكشف كيف يمكن للعمليات على المعادلات أن تغيّر مجموعات حلولها.",
+    "language.label": "اختر اللغة",
+    "lesson.title": "حلول نصطادها وحلول تفلت",
+    "lesson.subtitle": "قارن المعادلة الأصلية بنتيجة كل عملية، ثم تحقق من الحلول التي تبقى.",
+    "lesson.key": "مفتاح التفكير: التكافؤ",
+    "tabs.label": "اختر عملية",
+    "tabs.square": "التربيع",
+    "tabs.root": "استخراج الجذر",
+    "equation.original": "المعادلة الأصلية",
+    "equation.current": "المعادلة",
+    "common.new": "مثال جديد",
+    "square.heading": "شبكة تصطاد أكثر من اللازم",
+    "square.explain": "قد يؤدي التربيع إلى إضافة حلول مرشحة لا تحقق المعادلة الأصلية. لذلك يجب التحقق من كل حل مرشح في المعادلة الأصلية.",
+    "square.action": "ربّع الطرفين",
+    "square.stage": "شبكة صيد توضّح الحلول الصحيحة والحلول الدخيلة",
+    "square.checkTitle": "التحقق في المعادلة الأصلية",
+    "square.valid": "✓ حل صحيح",
+    "square.extraneous": "✕ حل دخيل",
+    "square.initialTitle": "ماذا يحدث؟",
+    "square.initialMessage": "اختر «ربّع الطرفين» لترى كيف تتغير مجموعة الحلول المرشحة.",
+    "square.resultTitle": "اصطادت الشبكة أكثر من اللازم",
+    "square.resultMessage": "نتج عن التربيع حلان مرشحان. ⁦{good}⁩ حل صحيح، لكن ⁦{bad}⁩ حل دخيل أدخلته العملية.",
+    "square.newTitle": "مثال جديد",
+    "square.newMessage": "ربّع الطرفين، وأوجد الحلول المرشحة، وتحقق من كل منها في المعادلة الأصلية.",
+    "root.heading": "شبكة تفقد بعض الأسماك",
+    "root.explain": "عند استخراج الجذر التربيعي، تذكّر الإشارتين. وإلا فقد يضيع حل صحيح.",
+    "root.action": "استخرج الجذر التربيعي",
+    "root.stage": "شبكة صيد توضّح فقدان حل صحيح",
+    "root.note": "الاحتفاظ بالجذر الموجب وحده قد يسمح لحل صحيح بالإفلات من الشبكة.",
+    "root.initialTitle": "ماذا يحدث؟",
+    "root.initialMessage": "اختر «استخرج الجذر التربيعي» لترى أهمية الإشارتين.",
+    "root.resultTitle": "أفلت أحد الحلول",
+    "root.resultMessage": "في المعادلة ⁦{eq}⁩، لا يكفي تذكّر ⁦{kept}⁩ وحده. ⁦{lost}⁩ حل صحيح أيضًا ويجب أن يبقى في الشبكة.",
+    "root.newTitle": "مثال جديد",
+    "root.newMessage": "استخرج الجذر التربيعي وتحقق من بقاء الحلين في الشبكة."
+},
       he: {
         pageTitle: "רשת הדיג של המשוואות — Fundamatics",
         "header.series": "מעבדת חשיבה מתמטית",
@@ -992,9 +1035,11 @@
     let rootRevealed = false;
 
     function getStoredLocale() {
+      const requested = new URLSearchParams(window.location.search).get("lang");
+      if (Object.hasOwn(messages, requested)) return requested;
       try {
         const stored = localStorage.getItem("thefisherman.locale");
-        if (stored === "he" || stored === "en") return stored;
+        if (Object.hasOwn(messages, stored)) return stored;
       } catch (error) {}
       return "he";
     }
@@ -1011,7 +1056,7 @@
       if (!messages[nextLocale]) return;
       locale = nextLocale;
       document.documentElement.lang = locale;
-      document.documentElement.dir = locale === "he" ? "rtl" : "ltr";
+      document.documentElement.dir = ["he", "ar"].includes(locale) ? "rtl" : "ltr";
       document.title = t("pageTitle");
       document.querySelectorAll("[data-i18n]").forEach((element) => {
         element.textContent = t(element.dataset.i18n);
