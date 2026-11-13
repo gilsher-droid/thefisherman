@@ -12,6 +12,23 @@
   const simulatorId = simulatorByHost[window.location.hostname];
   if (!simulatorId) return;
 
+  // Gil's public Fisherman trial ends at midnight in Jerusalem after 31 Dec 2026.
+  const publicAccessEnd = Date.parse("2027-01-01T00:00:00+02:00");
+  if (simulatorId === "fisherman" && Date.now() < publicAccessEnd) {
+    document.documentElement.dataset.accessGranted = "true";
+    document.documentElement.dataset.publicAccessUntil = new Date(publicAccessEnd).toISOString();
+    function checkPublicExpiry() {
+      const remaining = publicAccessEnd - Date.now();
+      if (remaining <= 0) {
+        window.location.reload();
+        return;
+      }
+      window.setTimeout(checkPublicExpiry, Math.min(remaining, 2147483647));
+    }
+    checkPublicExpiry();
+    return;
+  }
+
   const endpoint = "https://fundamatics.com/api/simulator-access";
   const storageKey = `fundamatics-access-${simulatorId}`;
   const requested = new URLSearchParams(location.search).get("lang");
